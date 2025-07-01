@@ -25,7 +25,7 @@ function updateLivesDisplay() {
 
 function gameOver() {
   alert('Game Over! You ran out of lives.');
-  window.location.href = '../../index.html';
+  window.location.href = 'index.html';
 }
 
 function loadQuestion() {
