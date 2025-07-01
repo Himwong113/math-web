@@ -58,12 +58,16 @@ function loadQuestion() {
   questionEl.textContent = `${a} × __ = ${result}`;
 
   // Build answer choices (correct operand and wrong operands)
-  const choices = [correctAnswer];
-  while (choices.length < 4) {
-    const wrongOp = Math.floor(Math.random() * 9) + 1;
-    if (!choices.includes(wrongOp)) choices.push(wrongOp);
+  //const choices = [correctAnswer];
+  //while (choices.length < 4) {
+  //  const wrongOp = Math.floor(Math.random() * 9) + 1;
+  //  if (!choices.includes(wrongOp)) choices.push(wrongOp);
+  //}
+  const choices = [];
+  for (let i = 1; i <= 9; i++) {
+     choices.push(i);
   }
-  shuffle(choices);
+  //shuffle(choices);
 
   // Render option buttons
   choices.forEach(value => {
