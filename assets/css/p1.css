@@ -1,0 +1,28 @@
+/* assets/css/p1.css */
+/*this is for all css in grade page*/
+.topic-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    max-width: 800px;
+    margin: 2rem auto;
+  }
+  
+  .topic-card {
+    display: block;
+    padding: 1.5rem;
+    background-color: white;
+    border: 2px solid #2196F3;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 1.2rem;
+    color: #2196F3;
+    text-decoration: none;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .topic-card:hover {
+    background-color: #2196F3;
+    color: white;
+  }
+  

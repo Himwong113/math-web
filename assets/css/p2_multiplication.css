@@ -1,0 +1,66 @@
+/* assets/css/p1.css */
+
+.topic-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    max-width: 800px;
+    margin: 2rem auto;
+  }
+  
+  .topic-card {
+    display: block;
+    padding: 1.5rem;
+    background-color: white;
+    border: 2px solid #2196F3;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 1.2rem;
+    color: #2196F3;
+    text-decoration: none;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .topic-card:hover:not(.disabled):not(.correct):not(.wrong) {
+    background-color: #2196F3;
+    color: white;
+  }
+  
+  /* Correct and wrong styles */
+  .topic-card.correct {
+    background-color: #4CAF50;
+    border-color: #388E3C;
+    color: white;
+  }
+  
+  .topic-card.wrong {
+    background-color: #F44336;
+    border-color: #D32F2F;
+    color: white;
+  }
+  
+  /* Disabled state */
+  .topic-card.disabled {
+    pointer-events: none;
+    opacity: 0.6;
+  }
+
+  /* assets/css/p2_multiplication.css */
+
+.lives-bar {
+    text-align: center;
+    margin: 1rem 0;
+    font-size: 1.5rem;
+  }
+  
+  .life {
+    margin: 0 0.25rem;
+    transition: opacity 0.3s;
+  }
+  
+  .life.lost {
+    opacity: 0.2;
+  }
+  
+  /* (keep the rest of your .topic-card, .correct, .wrong, etc. here) */
+  

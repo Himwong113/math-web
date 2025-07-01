@@ -1,0 +1,7 @@
+- id: p1
+  title: "Primary 1"
+  topics:
+    - slug: counting
+      title: "Counting & Numbers"
+    - slug: shapes
+      title: "Shapes"
