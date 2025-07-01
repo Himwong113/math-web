@@ -10,6 +10,9 @@ let correctAnswer;
 let questionCount = 0;
 let lives        = 3;
 
+/**
+ * Shuffle array in place (Fisher–Yates)
+ */
 function shuffle(arr) {
   for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -17,39 +20,52 @@ function shuffle(arr) {
   }
 }
 
+/**
+ * Update heart icons to reflect remaining lives.
+ */
 function updateLivesDisplay() {
   lifeIcons().forEach((el, idx) => {
     el.classList.toggle('lost', idx >= lives);
   });
 }
 
+/**
+ * End the game and navigate back to index.
+ */
 function gameOver() {
   alert('Game Over! You ran out of lives.');
-  window.location.href = 'index.html';
+  window.location.href = '../../index.html';
 }
 
+/**
+ * Load a new question: always operand blank format a × __ = result
+ */
 function loadQuestion() {
-  // If lives have run out, end the game
+  // If no lives left, game over
   if (lives < 1) return gameOver();
 
   questionCount++;
   counterEl.textContent = `Question: ${questionCount}`;
   optionsEl.innerHTML   = '';
 
+  // Generate two random 1-digit numbers
   const a = Math.floor(Math.random() * 9) + 1;
   const b = Math.floor(Math.random() * 9) + 1;
-  correctAnswer = a * b;
-  questionEl.textContent = `${a} × ${b} = ?`;
+  const result = a * b;
+  correctAnswer = b;
 
-  // Build answer choices
+  // Display the question in operand-blank format
+  questionEl.textContent = `${a} × __ = ${result}`;
+
+  // Build answer choices (correct operand and wrong operands)
   const choices = [correctAnswer];
   while (choices.length < 4) {
-    const w     = Math.floor(Math.random() * 9) + 1;
-    const wrong = w * (Math.floor(Math.random() * 9) + 1);
-    if (!choices.includes(wrong)) choices.push(wrong);
+    const wrongOp = Math.floor(Math.random() * 9) + 1;
+    if (!choices.includes(wrongOp)) choices.push(wrongOp);
   }
   shuffle(choices);
 
+  // Render option buttons
   choices.forEach(value => {
     const btn = document.createElement('a');
     btn.className = 'topic-card';
@@ -63,6 +79,9 @@ function loadQuestion() {
   });
 }
 
+/**
+ * Handle user answer: highlight correct and wrong, adjust lives, then next question.
+ */
 function handleAnswer(button, value) {
   // Disable all options and highlight correct
   document.querySelectorAll('#options .topic-card').forEach(el => {
@@ -75,18 +94,16 @@ function handleAnswer(button, value) {
     button.classList.add('wrong');
     lives--;
     updateLivesDisplay();
+    if (lives < 1) {
+      return setTimeout(gameOver, 800);
+    }
   }
 
-  // If they just used their last life, schedule game over
-  if (lives < 1) {
-    setTimeout(gameOver, 800);
-  } else {
-    // Otherwise, load next question
-    setTimeout(loadQuestion, 1000);
-  }
+  // Load next question
+  setTimeout(loadQuestion, 1000);
 }
 
-// Initialize on page load
+// Initialize quiz on page load
 document.addEventListener('DOMContentLoaded', () => {
   updateLivesDisplay();
   loadQuestion();
