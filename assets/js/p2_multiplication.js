@@ -36,7 +36,7 @@ function updateLivesDisplay() {
  */
 function gameOver() {
   alert(`Game Over! Your score: ${score}`);
-  window.location.href = '../../index.html';
+  window.location.href = 'index.html';
 }
 
 /**
