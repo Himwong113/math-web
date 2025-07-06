@@ -1,0 +1,57 @@
+/* assets/css/p2_tictactoe.css */
+
+#tic-tac-toe {
+    display: grid;
+    grid-template-rows: repeat(3, 1fr);
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+    width: 300px;
+    height: 300px;
+    margin: 2rem auto;
+  }
+  
+  .cell {
+    border: 2px solid #4CAF50;
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    user-select: none;
+    background-color: #fff;
+    transition: background-color 0.2s;
+  }
+  
+  .cell:hover:not(.disabled) {
+    background-color: #e8f5e9;
+  }
+  
+  .cell.disabled {
+    pointer-events: none;
+    opacity: 0.6;
+  }
+  
+  #message {
+    text-align: center;
+    font-size: 1.2rem;
+    margin-top: 1rem;
+    color: #333;
+  }
+  
+  #reset {
+    display: block;
+    margin: 1rem auto;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  #reset:hover {
+    background-color: #388E3C;
+  }
+  
