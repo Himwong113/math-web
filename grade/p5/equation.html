@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>P5 Integer Equation Quiz</title>
+  <link rel="stylesheet" href="../../assets/css/style.css">
+  <style>
+    /* Inline P5-specific styles */
+    .lives-bar, #counter, #score {
+      text-align: center;
+      margin: 0.5rem 0;
+      font-size: 1.2rem;
+    }
+    .life { font-size: 1.5rem; margin: 0 0.2rem; transition: opacity 0.3s; }
+    .lost { opacity: 0.3; }
+    #question-container { text-align: center; margin: 1rem 0; font-size: 1.3rem; }
+    #answer { width: 4rem; font-size: 1.2rem; text-align: center; }
+    #submit { padding: 0.5rem 1rem; font-size: 1rem; }
+    #feedback { display: block; text-align: center; margin: 0.5rem; font-size: 1.4rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>P5 Integer Equation Quiz</h1>
+    <nav><a href="index.html">← Back to Grades</a></nav>
+  </header>
+  <main>
+    <div class="lives-bar" id="lives">
+      <span class="life">❤️</span>
+      <span class="life">❤️</span>
+      <span class="life">❤️</span>
+    </div>
+    <div id="counter">Question: 0</div>
+    <div id="score">Score: 0</div>
+    <div id="question-container">
+      <span id="question">Loading...</span>
+    </div>
+    <div style="text-align:center;">
+      <input type="text" id="answer" placeholder="n" />
+      <button id="submit">Submit</button>
+    </div>
+    <span id="feedback"></span>
+  </main>
+  <footer>
+    <p>&copy; 2025 Primary Math Learning</p>
+  </footer>
+
+  <script>
+    const livesEl = document.getElementById('lives');
+    const lifeIcons = () => Array.from(livesEl.querySelectorAll('.life'));
+    const counterEl = document.getElementById('counter');
+    const scoreEl = document.getElementById('score');
+    const questionEl = document.getElementById('question');
+    const answerInput = document.getElementById('answer');
+    const submitBtn = document.getElementById('submit');
+    const feedbackEl = document.getElementById('feedback');
+
+    let lives = 3;
+    let questionCount = 0;
+    let score = 0;
+    let correctB;
+
+    function updateLives() {
+      lifeIcons().forEach((el, idx) => el.classList.toggle('lost', idx >= lives));
+    }
+
+    function gameOver() {
+      alert('Game Over!');
+      window.location.href = '../../index.html';
+    }
+
+    function pickInts() {
+      const a = Math.floor(Math.random() * 9) + 1;
+      const b = Math.floor(Math.random() * 9) + 1;
+      return { a, b };
+    }
+
+    function loadQuestion() {
+      if (lives < 1) return gameOver();
+      questionCount++;
+      counterEl.textContent = `Question: ${questionCount}`;
+      feedbackEl.textContent = '';
+      answerInput.value = '';
+
+      let a, b, c, op, result;
+      const ops = ['+', '-'];
+      do {
+        a = Math.floor(Math.random() * 9) + 1;
+        b = Math.floor(Math.random() * 9) + 1;
+        c = Math.floor(Math.random() * 9) + 1;
+        op = ops[Math.floor(Math.random() * ops.length)];
+        if (op === '+') {
+          result = a * b + c;
+        } else {
+          result = a * b - c;
+        }
+      } while (result <= 0);
+
+      correctB = b;
+      // Display with 'n' replacing 'b'; omit '1' when a === 1
+      if (a === 1) {
+        questionEl.textContent = `n${op}${c} = ${result}`;
+      } else {
+        questionEl.textContent = `${a}n${op}${c} = ${result}`;
+      }
+    }
+
+    submitBtn.addEventListener('click', () => {
+      const userVal = parseInt(answerInput.value, 10);
+      if (isNaN(userVal)) return;
+      if (userVal === correctB) {
+        feedbackEl.textContent = '✓';
+        score++;
+        scoreEl.textContent = `Score: ${score}`;
+      } else {
+        feedbackEl.textContent = '✗';
+        lives--;
+        updateLives();
+        if (lives < 1) return setTimeout(gameOver, 800);
+      }
+      setTimeout(loadQuestion, 1000);
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      updateLives();
+      loadQuestion();
+    });
+  </script>
+</body>
+</html>

@@ -3,12 +3,14 @@
 const livesEl    = document.getElementById('lives');
 const lifeIcons  = () => Array.from(livesEl.querySelectorAll('.life'));
 const counterEl  = document.getElementById('counter');
+const scoreEl    = document.getElementById('score');  // Score display element
 const questionEl = document.getElementById('question');
 const optionsEl  = document.getElementById('options');
 
 let correctAnswer;
 let questionCount = 0;
 let lives        = 3;
+let score        = 0;  // Track correct answers
 
 /**
  * Shuffle array in place (Fisher–Yates)
@@ -33,8 +35,8 @@ function updateLivesDisplay() {
  * End the game and navigate back to index.
  */
 function gameOver() {
-  alert('Game Over! You ran out of lives.');
-  window.location.href = 'index.html';
+  alert(`Game Over! Your score: ${score}`);
+  window.location.href = '../../index.html';
 }
 
 /**
@@ -57,17 +59,12 @@ function loadQuestion() {
   // Display the question in operand-blank format
   questionEl.textContent = `${a} × __ = ${result}`;
 
-  // Build answer choices (correct operand and wrong operands)
-  //const choices = [correctAnswer];
-  //while (choices.length < 4) {
-  //  const wrongOp = Math.floor(Math.random() * 9) + 1;
-  //  if (!choices.includes(wrongOp)) choices.push(wrongOp);
-  //}
+  // Build all possible operands 1–9
   const choices = [];
   for (let i = 1; i <= 9; i++) {
-     choices.push(i);
+    choices.push(i);
   }
-  //shuffle(choices);
+  
 
   // Render option buttons
   choices.forEach(value => {
@@ -84,7 +81,7 @@ function loadQuestion() {
 }
 
 /**
- * Handle user answer: highlight correct and wrong, adjust lives, then next question.
+ * Handle user answer: highlight correct and wrong, adjust lives & score, then next question.
  */
 function handleAnswer(button, value) {
   // Disable all options and highlight correct
@@ -93,8 +90,12 @@ function handleAnswer(button, value) {
     if (+el.textContent === correctAnswer) el.classList.add('correct');
   });
 
-  // If wrong, mark it red and lose a life
-  if (value !== correctAnswer) {
+  if (value === correctAnswer) {
+    // Correct: update score
+    score++;
+    if (scoreEl) scoreEl.textContent = `Score: ${score}`;
+  } else {
+    // Wrong: mark it and lose a life
     button.classList.add('wrong');
     lives--;
     updateLivesDisplay();
@@ -110,5 +111,6 @@ function handleAnswer(button, value) {
 // Initialize quiz on page load
 document.addEventListener('DOMContentLoaded', () => {
   updateLivesDisplay();
+  if (scoreEl) scoreEl.textContent = `Score: ${score}`;
   loadQuestion();
 });
